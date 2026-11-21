@@ -480,19 +480,23 @@ open class DeckPicker :
         }
     }
 
-    private suspend fun showDeckPickerContextMenu(deckId: DeckId) {
-        val menu = DeckPickerContextMenu.newInstance(deckId)
-        CardBrowser.clearLastDeckId()
-        showDialogFragment(menu)
+    private fun showDeckPickerContextMenu(deckId: DeckId) {
+        launchCatchingTask {
+            val menu = DeckPickerContextMenu.newInstance(deckId)
+            CardBrowser.clearLastDeckId()
+            showDialogFragment(menu)
+        }
     }
 
-    private suspend fun showDeckPickerRightClickContextMenu(request: DeckPickerViewModel.RightClickMenuRequest) {
-        DeckPickerMenuContentProvider.show(
-            deckPicker = this@DeckPicker,
-            deckId = request.deckId,
-            x = request.x,
-            y = request.y,
-        )
+    private fun showDeckPickerRightClickContextMenu(request: DeckPickerViewModel.RightClickMenuRequest) {
+        launchCatchingTask {
+            DeckPickerMenuContentProvider.show(
+                deckPicker = this@DeckPicker,
+                deckId = request.deckId,
+                x = request.x,
+                y = request.y,
+            )
+        }
     }
 
     // ----------------------------------------------------------------------------
